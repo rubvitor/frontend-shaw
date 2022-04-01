@@ -16,11 +16,9 @@ class App extends Component {
           <h1 className="App-title">Users Git Shaw</h1>
         </header>
           <Routes>
-                <Route exact path= "/" render={() => (
-                  <Navigate to="/users"/>
-                )}/>
-                 <Route exact path='/users' element={<Users />} />
-                 <Route exact path='/userdetails' element={<UserDetails />} />
+                <Route exact path= "/"  element={<Navigate replace to="/home" />}/>
+                <Route exact path='/users' element={<Users />} />
+                <Route exact path='/userdetails' element={<UserDetails />} />
           </Routes>
       </div>
     </BrowserRouter>

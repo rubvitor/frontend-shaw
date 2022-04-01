@@ -13,7 +13,8 @@ export default class Users extends Component {
       userList: [],
       prev: 0,
       next: 1,
-      current: 0
+      current: 0,
+      errorMsg: ''
     }
   }
 
@@ -22,13 +23,14 @@ export default class Users extends Component {
   }
 
   getUserData(url = 'https://users-git-shaw.herokuapp.com/users?since=0') {
+    this.setState({errorMsg: ''});
     axios.get(url).then(response => {
       let data = [];
       if (response && response.data && response.data.body && response.data.body.length && response.data.body.length > 0) {
         data = response.data;
       }
       else {
-        debugger;
+        this.setState({errorMsg: data.body.message});
         return;
       }
 
@@ -37,8 +39,13 @@ export default class Users extends Component {
   };
 
   render() {
-    if (!this.state.userList || this.state.userList.length === 0)
+    if (this.state.errorMsg !== '') {
+      return (<p>{this.state.errorMsg}</p>)
+    }
+
+    if (!this.state.userList || this.state.userList.length === 0) {
       return (<p>Without results</p>)
+    }
 
     return (<div className="addmargin">
       <div className="col-md-12">
