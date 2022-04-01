@@ -30,7 +30,8 @@ export default class Users extends Component {
         data = response.data;
       }
       else {
-        this.setState({errorMsg: data.body.message});
+        debugger;
+        this.setState({errorMsg: response.data.body.message});
         return;
       }
 
