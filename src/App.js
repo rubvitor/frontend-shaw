@@ -16,7 +16,7 @@ class App extends Component {
           <h1 className="App-title">Users Git Shaw</h1>
         </header>
           <Routes>
-                <Route exact path= "/"  element={<Navigate replace to="/home" />}/>
+                <Route exact path= "/"  element={<Navigate replace to="/users" />}/>
                 <Route exact path='/users' element={<Users />} />
                 <Route exact path='/userdetails' element={<UserDetails />} />
           </Routes>
