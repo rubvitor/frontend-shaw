@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+table {
+  width: 100%;
+  border: 1px solid #aaaaaa;
+}
+
+td, th {
+  border: 1px solid #aaaaaa;
+  text-align: center;
+}
+
+tfoot > tr > td {
+  border: none !important;
+}
