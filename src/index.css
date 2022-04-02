@@ -9,7 +9,7 @@ table {
   border: 1px solid #aaaaaa;
 }
 
-td, th {
+td, th, caption {
   border: 1px solid #aaaaaa;
   text-align: center;
 }

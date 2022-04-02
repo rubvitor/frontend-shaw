@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {Card, Button, Table } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import {  } from './App'
+import { parse, exclude } from 'query-string';
+import { Enviroment } from './Enviroment';
 
 export default class Users extends Component {
 
@@ -15,27 +15,46 @@ export default class Users extends Component {
       next: 1,
       current: 0,
       errorMsg: ''
-    }
+    };
   }
 
   componentDidMount() {
     this.getUserData();
   }
 
-  getUserData(url = 'https://users-git-shaw.herokuapp.com/users?since=0') {
+  getUserData(url) {
+    let page = 0;
+    if (!url) {
+      url = `${Enviroment.urlBase}/users?since=`;
+      const content = parse(location.search);
+
+      if (content) {
+        url += content.since;
+        page = Number(content.since);
+      } else {
+        url += '0';
+      }
+    }
+
     this.setState({errorMsg: ''});
+
     axios.get(url).then(response => {
       let data = [];
       if (response && response.data && response.data.body && response.data.body.length && response.data.body.length > 0) {
-        data = response.data;
+        data = response.data.body;
       }
       else {
-        debugger;
         this.setState({errorMsg: response.data.body.message});
         return;
       }
 
-      this.setState({userList: data.body, prev: data.previous, next: data.next, current: data.current});
+      page = Number(response.data.current);
+      this.state.userList = data;
+      this.state.prev = response.data.previous;
+      this.state.next = response.data.next;
+      this.state.current = page;
+
+      this.setState(this.state);
     });
   };
 
@@ -61,11 +80,11 @@ export default class Users extends Component {
             <tbody>
         {
           this.state.userList.map(user =>
-              <tr style={{"cursor": "pointer"}}>
+              <tr key={user.id} style={{"cursor": "pointer"}}>
                 <td>{user.id}</td>
                 <td>{user.login}</td>
                 <td>
-                  <Link variant="info" to={"/userdetails?id=" + user.id + "&page=" + this.state.current}>
+                  <Link variant="info" to={`/userdetails?id=${user.id}&page=${this.state.current}`}>
                    Details
                   </Link>
                 </td>

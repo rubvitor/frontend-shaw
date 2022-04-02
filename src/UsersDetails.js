@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
 import { Card } from 'react-bootstrap'
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
-
-function useQuery() {
-  const { search } = useLocation();
-
-  return React.useMemo(() => new URLSearchParams(search), [search]);
-}
+import { Link } from 'react-router-dom';
+import { parse } from 'query-string';
+import { Enviroment } from './Enviroment';
 
 export default class UserDetails extends Component {
 
@@ -18,45 +14,53 @@ export default class UserDetails extends Component {
       page: 0,
       userDetails: {},
       repos: []
-    }
+    };
   }
 
   componentDidMount() {
-    let query = useQuery();
-    this.setState({id: query.get("id"), page: query.get("page")});
-
-    this.getuserDetails(this.state.id);
+    const content = parse(location.search);
+    this.state.id = content.id;
+    this.state.page = content.page;
+    this.setState(this.state);
+    this.getuserDetails(content.id);
+    this.getUserRepos(content.id);
   }
 
   getuserDetails(id) {
     if (!id || id === '') {
-      this.setState({userDetails: {}});
+      this.state.userDetails = {};
+      this.setState(this.state);
+
       return;
     }
 
-    axios.get(`https://users-git-shaw.herokuapp.com/users/${id}`).then(response => {
+    axios.get(`${Enviroment.urlBase}/users/${id}/details`).then(response => {
       let data = {};
-      if (response && response.data && response.data.body && response.data.body.length && response.data.body.length > 0) {
+      if (response && response.data && response.data) {
         data = response.data;
       }
 
-      this.setState({ userDetails: data.body });
+      this.state.userDetails = data;
+      this.setState(this.state);
     })
   }
 
-  getuserRepos(id) {
+  getUserRepos(id) {
     if (!id || id === '') {
-      this.setState({userDetails: {}});
+      this.state.repos = {};
+      this.setState(this.state);
+
       return;
     }
 
-    axios.get(`https://users-git-shaw.herokuapp.com/users/${id}/repos`).then(response => {
+    axios.get(`${Enviroment.urlBase}/users/${id}/repos`).then(response => {
       let data = {};
-      if (response && response.data && response.data.body && response.data.body.length && response.data.body.length > 0) {
+      if (response && response.data) {
         data = response.data;
       }
 
-      this.setState({ repos: data.body });
+      this.state.repos = data;
+      this.setState(this.state);
     })
   }
 
@@ -77,12 +81,11 @@ export default class UserDetails extends Component {
       <br/><br/>
       <Card>
         <Card.Body>
-          <Link className="info" to={"/users?since=" + this.state.current}>Back</Link>
+          <Link className="info" to={`/users?since=${this.state.page}`}>Back</Link>
         </Card.Body>
       </Card>
-      {(() => {
-          if (this.state.repos && this.state.repos.length > 0) {
-            <table style={{"marginTop": "10px", "borderWidth":"1px", 'width': '100%', 'borderColor':"#aaaaaa", 'borderStyle':'solid'}}>
+      {
+            <table style={{"marginTop": "30px", "borderWidth":"1px", 'width': '100%', 'borderColor':"#aaaaaa", 'borderStyle':'solid'}}>
             <caption>Repositories</caption>
             <thead>
               <tr>
@@ -94,7 +97,7 @@ export default class UserDetails extends Component {
               <tbody>
                 {
                   this.state.repos.map(repo =>
-                      <tr>
+                      <tr key={repo.id}>
                         <td>{repo.id}</td>
                         <td>{repo.name}</td>
                         <td>{repo.url}</td>
@@ -104,7 +107,6 @@ export default class UserDetails extends Component {
               </tbody>
             </table>
           }
-      })()}
     </div>
     )
   }

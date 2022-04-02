@@ -17,8 +17,8 @@ class App extends Component {
         </header>
           <Routes>
                 <Route exact path= "/"  element={<Navigate replace to="/users" />}/>
-                <Route exact path='/users' element={<Users />} />
-                <Route exact path='/userdetails' element={<UserDetails />} />
+                <Route path='/users' element={<Users />} />
+                <Route path='/userdetails' element={<UserDetails />} />
           </Routes>
       </div>
     </BrowserRouter>
