@@ -38,7 +38,7 @@ export default class Users extends Component {
     }
 
     this.state.errorMsg = '';
-    this.state,loading = true;
+    this.state.loading = true;
     this.setState(this.state);
 
     axios.get(url).then(response => {
@@ -52,7 +52,7 @@ export default class Users extends Component {
       }
 
       page = Number(response.data.current);
-      this.state,loading = false;
+      this.state.loading = false;
       this.state.userList = data;
       this.state.prev = response.data.previous;
       this.state.next = response.data.next;
