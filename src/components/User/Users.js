@@ -25,12 +25,13 @@ export default class Users extends Component {
   }
 
   getUserData(url) {
+    debugger;
     let page = 0;
     if (!url) {
       url = `${Enviroment.urlBase}/users?since=`;
       const content = parse(location.search);
 
-      if (content) {
+      if (content && content.since) {
         url += content.since;
         page = Number(content.since);
       } else {
@@ -72,11 +73,12 @@ export default class Users extends Component {
       return (<p>Without results</p>)
     }
 
+    let loadingDiv = '';
     if (this.state.loading) {
-      return (<p>Loading...</p>)
+      loadingDiv = <p>Loading...</p>;
     }
-
     return (<div className="addmargin">
+      {loadingDiv}
       <div className="col-md-12">
       <Table striped bordered hover>
             <thead>
