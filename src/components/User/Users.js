@@ -25,7 +25,6 @@ export default class Users extends Component {
   }
 
   getUserData(url) {
-    debugger;
     let page = 0;
     if (!url) {
       url = `${Enviroment.urlBase}/users?since=`;
