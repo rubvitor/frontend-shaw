@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import { parse } from 'query-string';
 import { Enviroment } from '../../Enviroment';
 
-export default class UserDetails extends Component {
+export default class UserDetails extends Component<UserDetailsModel, UserDetailsModel> {
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       id: '',
@@ -18,25 +18,25 @@ export default class UserDetails extends Component {
     };
   }
 
+  setStateIn(obj: any) {
+    this.setState(obj);
+  }
+
   componentDidMount() {
     const content = parse(location.search);
-    this.state.id = content.id;
-    this.state.page = content.page;
-    this.setState(this.state);
+    this.setStateIn({id: content.id, page: content.page});
     this.getuserDetails(content.id);
     this.getUserRepos(content.id);
   }
 
-  getuserDetails(id) {
+  getuserDetails(id: any) {
     if (!id || id === '') {
-      this.state.userDetails = {};
-      this.setState(this.state);
+      this.setStateIn({userDetails: {}});
 
       return;
     }
 
-    this.state.loading = true;
-    this.setState(this.state);
+    this.setStateIn({loading: true});
 
     axios.get(`${Enviroment.urlBase}/users/${id}/details`).then(response => {
       let data = {};
@@ -44,22 +44,18 @@ export default class UserDetails extends Component {
         data = response.data;
       }
 
-      this.state.userDetails = data;
-      this.state.loading = false;
-      this.setState(this.state);
-    })
+      this.setStateIn({loading: false, userDetails: data});
+    });
   }
 
-  getUserRepos(id) {
+  getUserRepos(id: any) {
     if (!id || id === '') {
-      this.state.repos = {};
-      this.setState(this.state);
+      this.setStateIn({repos: {}});
 
       return;
     }
 
-    this.state.loading = true;
-    this.setState(this.state);
+    this.setStateIn({loading: true});
 
     axios.get(`${Enviroment.urlBase}/users/${id}/repos`).then(response => {
       let data = {};
@@ -67,10 +63,8 @@ export default class UserDetails extends Component {
         data = response.data;
       }
 
-      this.state.repos = data;
-      this.state.loading = false;
-      this.setState(this.state);
-    })
+      this.setStateIn({loading: false, repos: data});
+    });
   }
 
   render() {
@@ -84,9 +78,9 @@ export default class UserDetails extends Component {
           <Card.Title className="h3">Details</Card.Title>
         </Card.Header>
         <Card.Body>
-          <p>Id : {this.state.userDetails.id}</p>
-          <p>Login : {this.state.userDetails.login}</p>
-          <p>Created Login : {this.state.userDetails.created_at}</p>
+          <p>Id : {this.state.userDetails?.id}</p>
+          <p>Login : {this.state.userDetails?.login}</p>
+          <p>Created Login : {this.state.userDetails?.created_at}</p>
         </Card.Body>
       </Card>
       <br/><br/>
@@ -107,7 +101,7 @@ export default class UserDetails extends Component {
             </thead>
               <tbody>
                 {
-                  this.state.repos.map(repo =>
+                  this.state.repos?.map((repo: any) =>
                       <tr key={repo.id}>
                         <td>{repo.id}</td>
                         <td>{repo.name}</td>
@@ -121,4 +115,12 @@ export default class UserDetails extends Component {
     </div>
     )
   }
+}
+
+class UserDetailsModel {
+  id?: '';
+  page?: 0;
+  userDetails?: any = {};
+  repos?: [];
+  loading?: false;
 }

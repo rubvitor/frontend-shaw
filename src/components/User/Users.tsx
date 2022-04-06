@@ -1,32 +1,36 @@
-import React, {Component} from 'react';
+import React, {Component } from 'react';
 import { Link } from "react-router-dom";
 import { Table } from 'react-bootstrap';
 import axios from 'axios';
-import { parse, exclude } from 'query-string';
+import { parse } from 'query-string';
 import { Enviroment } from '../../Enviroment';
 
-export default class Users extends Component {
+export default class Users extends Component<UserModel, UserModel> {
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       selectedUser: '',
       userList: [],
-      prev: 0,
-      next: 1,
+      prev: '',
+      next: '',
       current: 0,
       errorMsg: '',
       loading: false
     };
   }
 
+  setStateIn(obj: any) {
+    this.setState(obj);
+  }
+
   componentDidMount() {
     this.getUserData();
   }
 
-  getUserData(url) {
+  getUserData(url: string = '') {
     let page = 0;
-    if (!url) {
+    if (!url || url === '') {
       url = `${Enviroment.urlBase}/users?since=`;
       const content = parse(location.search);
 
@@ -38,28 +42,27 @@ export default class Users extends Component {
       }
     }
 
-    this.state.errorMsg = '';
-    this.state.loading = true;
-    this.setState(this.state);
-
+    this.setStateIn({ errorMsg: '', loading: true});
     axios.get(url).then(response => {
       let data = [];
       if (response && response.data && response.data.body && response.data.body.length && response.data.body.length > 0) {
         data = response.data.body;
       }
       else {
-        this.setState({errorMsg: response.data.body.message});
+        this.setStateIn({errorMsg: response.data.body.message});
         return;
       }
 
       page = Number(response.data.current);
-      this.state.loading = false;
-      this.state.userList = data;
-      this.state.prev = response.data.previous;
-      this.state.next = response.data.next;
-      this.state.current = page;
+      const stateTemp = {
+        loading: false,
+        userList: data,
+        prev: response.data.previous,
+        next: response.data.next,
+        current: page,
+      };
 
-      this.setState(this.state);
+      this.setStateIn(stateTemp);
     });
   };
 
@@ -72,7 +75,7 @@ export default class Users extends Component {
       return (<p>Without results</p>)
     }
 
-    let loadingDiv = '';
+    let loadingDiv: any;
     if (this.state.loading) {
       loadingDiv = <p>Loading...</p>;
     }
@@ -89,12 +92,12 @@ export default class Users extends Component {
             </thead>
             <tbody>
         {
-          this.state.userList.map(user =>
+          this.state.userList.map((user: any) =>
               <tr key={user.id} style={{"cursor": "pointer"}}>
                 <td>{user.id}</td>
                 <td>{user.login}</td>
                 <td>
-                  <Link variant="info" to={`/userdetails?id=${user.id}&page=${this.state.current}`}>
+                  <Link  to={`/userdetails?id=${user.id}&page=${this.state.current}`}>
                    Details
                   </Link>
                 </td>
@@ -103,7 +106,7 @@ export default class Users extends Component {
         }
           </tbody>
         </Table>
-        <div style={{"width":"100%", "borderWidth":"1px", 'width': '100%', 'borderColor':"#aaaaaa", 'borderStyle':'solid'}}>
+        <div style={{"width":"100%", "borderWidth":"1px", 'borderColor':"#aaaaaa", 'borderStyle':'solid'}}>
           <button type='button' onClick={() => this.getUserData(this.state.prev)}>Prev</button>
           <label style={{"margin":"5px"}}>{this.state.current}</label>
           <button type='button' onClick={() => this.getUserData(this.state.next)}>Next</button>
@@ -112,4 +115,14 @@ export default class Users extends Component {
     </div>)
   }
 
+}
+
+class UserModel {
+  selectedUser? = '';
+  userList? = [];
+  prev? = '';
+  next? = '';
+  current? =  0;
+  errorMsg? = '';
+  loading? = false;
 }
