@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Link } from "react-router-dom";
+import { Table } from 'react-bootstrap';
 import axios from 'axios';
 import { parse, exclude } from 'query-string';
 import { Enviroment } from '../../Enviroment';

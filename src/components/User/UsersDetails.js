@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Card } from 'react-bootstrap'
+import { Card, Table } from 'react-bootstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { parse } from 'query-string';
@@ -77,7 +77,7 @@ export default class UserDetails extends Component {
     if (this.state.loading) {
       return (<p>Loading...</p>)
     }
-    
+
     return (<div className="userDetails">
       <Card className="info centeralign">
         <Card.Header>
