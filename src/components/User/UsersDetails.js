@@ -85,7 +85,7 @@ export default class UserDetails extends Component {
         </Card.Body>
       </Card>
       {
-            <table style={{"marginTop": "30px", "borderWidth":"1px", 'width': '100%', 'borderColor':"#aaaaaa", 'borderStyle':'solid'}}>
+            <Table striped bordered hover>
             <caption>Repositories</caption>
             <thead>
               <tr>
@@ -105,7 +105,7 @@ export default class UserDetails extends Component {
                   )
                 }
               </tbody>
-            </table>
+            </Table>
           }
     </div>
     )

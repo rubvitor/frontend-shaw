@@ -69,7 +69,7 @@ export default class Users extends Component {
 
     return (<div className="addmargin">
       <div className="col-md-12">
-      <table className='table'>
+      <Table striped bordered hover>
             <thead className='thead-dark'>
               <tr>
                 <th>ID</th>
@@ -92,7 +92,7 @@ export default class Users extends Component {
           )
         }
           </tbody>
-        </table>
+        </Table>
         <div style={{"width":"100%", "borderWidth":"1px", 'width': '100%', 'borderColor':"#aaaaaa", 'borderStyle':'solid'}}>
           <button type='button' onClick={() => this.getUserData(this.state.prev)}>Prev</button>
           <label style={{"margin":"5px"}}>{this.state.current}</label>
