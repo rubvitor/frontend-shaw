@@ -13,7 +13,8 @@ export default class UserDetails extends Component {
       id: '',
       page: 0,
       userDetails: {},
-      repos: []
+      repos: [],
+      loading: false
     };
   }
 
@@ -34,6 +35,9 @@ export default class UserDetails extends Component {
       return;
     }
 
+    this.state.loading = true;
+    this.setState(this.state);
+
     axios.get(`${Enviroment.urlBase}/users/${id}/details`).then(response => {
       let data = {};
       if (response && response.data && response.data) {
@@ -41,6 +45,7 @@ export default class UserDetails extends Component {
       }
 
       this.state.userDetails = data;
+      this.state.loading = false;
       this.setState(this.state);
     })
   }
@@ -53,6 +58,9 @@ export default class UserDetails extends Component {
       return;
     }
 
+    this.state.loading = true;
+    this.setState(this.state);
+
     axios.get(`${Enviroment.urlBase}/users/${id}/repos`).then(response => {
       let data = {};
       if (response && response.data) {
@@ -60,13 +68,16 @@ export default class UserDetails extends Component {
       }
 
       this.state.repos = data;
+      this.state.loading = false;
       this.setState(this.state);
     })
   }
 
   render() {
-    if (!this.state.userDetails)
-      return (<p>Loading Data</p>)
+    if (this.state.loading) {
+      return (<p>Loading...</p>)
+    }
+    
     return (<div className="userDetails">
       <Card className="info centeralign">
         <Card.Header>
