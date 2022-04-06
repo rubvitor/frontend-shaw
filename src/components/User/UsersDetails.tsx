@@ -24,7 +24,7 @@ export default class UserDetails extends Component<UserDetailsModel, UserDetails
 
   componentDidMount() {
     const content = parse(location.search);
-    this.setStateIn({id: content.id, page: content.page});
+    this.setStateIn({id: content.id, page: content.page, errorMsg: ''});
     this.getuserDetails(content.id);
     this.getUserRepos(content.id);
   }
@@ -59,8 +59,11 @@ export default class UserDetails extends Component<UserDetailsModel, UserDetails
 
     axios.get(`${Enviroment.urlBase}/users/${id}/repos`).then(response => {
       let data = {};
-      if (response && response.data) {
+      if (response && response.data && !response.data.message) {
         data = response.data;
+      } else {
+        this.setStateIn({ errorMsg: response.data.message });
+        return;
       }
 
       this.setStateIn({loading: false, repos: data});
@@ -71,13 +74,14 @@ export default class UserDetails extends Component<UserDetailsModel, UserDetails
     if (this.state.loading) {
       return (<p>Loading...</p>)
     }
-
+    debugger;
     return (<div className="userDetails">
       <Card className="info centeralign">
         <Card.Header>
           <Card.Title className="h3">Details</Card.Title>
         </Card.Header>
         <Card.Body>
+          <p>Avatar: <img width={'50px'} src={this.state.userDetails?.avatar_url} /></p>
           <p>Id : {this.state.userDetails?.id}</p>
           <p>Login : {this.state.userDetails?.login}</p>
           <p>Created Login : {this.state.userDetails?.created_at}</p>
@@ -123,4 +127,5 @@ class UserDetailsModel {
   userDetails?: any = {};
   repos?: [];
   loading?: false;
+  errorMsg?: '';
 }
