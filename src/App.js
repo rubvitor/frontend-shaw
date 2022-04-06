@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Users from './Users';
+import Users from './components/User/Users';
 import UserDetails from './UsersDetails'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { parse, exclude } from 'query-string';
-import { Enviroment } from './Enviroment';
+import { Enviroment } from '../../Enviroment';
 
 export default class Users extends Component {
 
@@ -69,8 +69,8 @@ export default class Users extends Component {
 
     return (<div className="addmargin">
       <div className="col-md-12">
-      <table style={{"borderWidth":"1px", 'width': '100%', 'borderColor':"#aaaaaa", 'borderStyle':'solid'}}>
-            <thead>
+      <table className='table'>
+            <thead className='thead-dark'>
               <tr>
                 <th>ID</th>
                 <th>Login</th>
