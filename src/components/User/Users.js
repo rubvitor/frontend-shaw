@@ -14,7 +14,8 @@ export default class Users extends Component {
       prev: 0,
       next: 1,
       current: 0,
-      errorMsg: ''
+      errorMsg: '',
+      loading: false
     };
   }
 
@@ -36,7 +37,9 @@ export default class Users extends Component {
       }
     }
 
-    this.setState({errorMsg: ''});
+    this.state.errorMsg = '';
+    this.state,loading = true;
+    this.setState(this.state);
 
     axios.get(url).then(response => {
       let data = [];
@@ -49,6 +52,7 @@ export default class Users extends Component {
       }
 
       page = Number(response.data.current);
+      this.state,loading = false;
       this.state.userList = data;
       this.state.prev = response.data.previous;
       this.state.next = response.data.next;
@@ -67,10 +71,14 @@ export default class Users extends Component {
       return (<p>Without results</p>)
     }
 
+    if (this.state.loading) {
+      return (<p>Loading...</p>)
+    }
+
     return (<div className="addmargin">
       <div className="col-md-12">
       <Table striped bordered hover>
-            <thead className='thead-dark'>
+            <thead>
               <tr>
                 <th>ID</th>
                 <th>Login</th>
