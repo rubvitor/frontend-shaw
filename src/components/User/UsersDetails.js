@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { parse } from 'query-string';
-import { Enviroment } from './Enviroment';
+import { Enviroment } from '../../Enviroment';
 
 export default class UserDetails extends Component {
 

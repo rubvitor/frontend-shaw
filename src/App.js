@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Users from './components/User/Users';
-import UserDetails from './UsersDetails'
+import UserDetails from './components/User/UsersDetails'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
 class App extends Component {
