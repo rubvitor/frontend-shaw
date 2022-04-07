@@ -10,7 +10,7 @@ export default class Users extends Component<UserModel, UserModel> {
   userInput: string = 'rubvitor';
   constructor(props: any) {
     super(props);
-    this.userInput = '';
+    this.userInput = 'rubvitor';
     this.state = {
       selectedUser: '',
       userList: [],
