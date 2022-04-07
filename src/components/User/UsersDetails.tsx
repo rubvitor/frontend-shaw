@@ -14,7 +14,7 @@ export default class UserDetails extends Component<UserDetailsModel, UserDetails
       page: 0,
       userDetails: {},
       repos: [],
-      loading: false
+      loading: true
     };
   }
 
