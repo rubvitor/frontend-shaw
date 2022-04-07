@@ -108,15 +108,16 @@ export default class Users extends Component<UserModel, UserModel> {
     if (this.state.errorMsg !== '') {
       return (<p>{this.state.errorMsg}</p>)
     }
+    
+    let loadingDiv: any;
+    if (this.state.loading) {
+      loadingDiv = <p>Loading...</p>;
+    }
 
     if (!this.state.userList || this.state.userList.length === 0) {
       return (<p>Without results</p>)
     }
 
-    let loadingDiv: any;
-    if (this.state.loading) {
-      loadingDiv = <p>Loading...</p>;
-    }
     return (<div className="addmargin">
       {loadingDiv}
       <div className="col-md-12">
