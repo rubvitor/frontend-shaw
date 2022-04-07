@@ -18,7 +18,7 @@ export default class Users extends Component<UserModel, UserModel> {
       next: '',
       current: 0,
       errorMsg: '',
-      loading: false
+      loading: true
     };
   }
 
@@ -108,7 +108,7 @@ export default class Users extends Component<UserModel, UserModel> {
     if (this.state.errorMsg !== '') {
       return (<p>{this.state.errorMsg}</p>)
     }
-    
+
     let loadingDiv: any;
     if (this.state.loading) {
       loadingDiv = <p>Loading...</p>;
