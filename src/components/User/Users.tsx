@@ -7,7 +7,7 @@ import { Enviroment } from '../../Enviroment';
 
 export default class Users extends Component<UserModel, UserModel> {
 
-  userInput: string = '';
+  userInput: string = 'rubvitor';
   constructor(props: any) {
     super(props);
     this.userInput = '';
