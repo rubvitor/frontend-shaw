@@ -126,6 +126,6 @@ class UserDetailsModel {
   page?: 0;
   userDetails?: any = {};
   repos?: [];
-  loading?: false;
+  loading? = true;
   errorMsg?: '';
 }

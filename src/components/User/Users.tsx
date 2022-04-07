@@ -170,5 +170,5 @@ class UserModel {
   next?= '';
   current?= 0;
   errorMsg?= '';
-  loading?= false;
+  loading? = false;
 }
